@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation Email</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333333;
+        }
+
+        h1 {
+            font-weight: 600;
+        }
+
+        p {
+            font-weight: 600;
+            font-size: 17px;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+<div style="border: #686868 solid; padding: 20px; border-radius: 10px">
+    <h1>С вашего email адреса, <span th:text="${name}">Имя</span>, пришел запрос на регистрацию в сервисе TaskZone</h1>
+    <p>Для подтверждения регистрации - перейдите по : <a th:href="${confirmLink}">ссылке</a></p>
+    <p>Ссылка действительна 10 минут</p>
+    <p></p>
+    <p>Если Вы не оставляли запрос на регистрацию - просто проигнорируйте данное письмо</p>
+</div>
+</body>
+</html>

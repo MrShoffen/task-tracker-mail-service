@@ -1,0 +1,48 @@
+### Configurations from config server
+mail-user:
+  from: noreply@taskzone.ru
+  host: smtp.timeweb.ru
+  port: 465
+  username: ${EMAIL_USER}
+  password: ${EMAIL_PASSWORD}
+#
+kafka-user:
+  bootstrap-servers: 192.168.0.125:29092,192.168.0.125:39092,192.168.0.125:49092
+###
+
+
+spring:
+  application:
+    name: notification-mail-ws
+  profiles:
+    active: kafka-user, mail-user
+  config:
+    import: optional:configserver:http://${CONFIG_SERVER_USER}:${CONFIG_SERVER_PASSWORD}@${CONFIG_SERVER_HOST:localhost}:${CONFIG_SERVER_PORT:8012}
+
+  mail:
+    host: ${mail-user.host}
+    port: ${mail-user.port}
+    username: ${mail-user.username}
+    password: ${mail-user.password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            enable: true
+    protocol: smtp
+    test-connection: true
+
+  kafka:
+    bootstrap-servers: ${kafka-user.bootstrap-servers}
+    consumer:
+      group-id: ${spring.application.name}  # ?????????? ????????????? ??????
+      key-deserializer: org.apache.kafka.common.serialization.UUIDDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "org.mrshoffen.tasktracker.commons.kafka.event.*"
+
+server.port: ${PORT:0}
