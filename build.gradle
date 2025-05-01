@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'org.mrshoffen.tasktracker'
-version = '1.0.1'
+version = '1.0.2'
 
 java {
     toolchain {
@@ -18,8 +18,8 @@ repositories {
 }
 
 dependencies {
-    implementation platform('com.github.MrShoffen:task-tracker-dependencies-versions:1.5.4')
-    annotationProcessor platform('com.github.MrShoffen:task-tracker-dependencies-versions:1.5.4')
+    implementation platform('com.github.MrShoffen:task-tracker-dependencies-versions:1.6.0')
+    annotationProcessor platform('com.github.MrShoffen:task-tracker-dependencies-versions:1.6.0')
 
     implementation 'com.github.MrShoffen:task-tracker-commons'
 
