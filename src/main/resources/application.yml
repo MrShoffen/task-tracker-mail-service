@@ -14,8 +14,6 @@ kafka-user:
 spring:
   application:
     name: notification-mail-ws
-  profiles:
-    active: kafka-user, mail-user
   config:
     import: optional:configserver:http://${CONFIG_SERVER_USER}:${CONFIG_SERVER_PASSWORD}@${CONFIG_SERVER_HOST:localhost}:${CONFIG_SERVER_PORT:8012}
 
