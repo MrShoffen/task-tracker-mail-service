@@ -2,6 +2,7 @@ package org.mrshoffen.tasktracker.notification.mail.service;
 
 import lombok.RequiredArgsConstructor;
 import org.mrshoffen.tasktracker.commons.kafka.event.authentication.AuthenticationSuccessfulEvent;
+import org.mrshoffen.tasktracker.commons.kafka.event.creds.EmailUpdateAttemptEvent;
 import org.mrshoffen.tasktracker.commons.kafka.event.registration.RegistrationAttemptEvent;
 import org.mrshoffen.tasktracker.commons.kafka.event.registration.RegistrationSuccessfulEvent;
 import org.mrshoffen.tasktracker.notification.mail.model.Mail;
@@ -18,8 +19,8 @@ public class MailBodyService {
     public Mail buildConfirmationMessage(RegistrationAttemptEvent event) {
         Context context = new Context();
         context.setVariable("name", event.getEmail());
-        context.setVariable("confirmLink", "http://localhost:8080/api/v1" + event.getConfirmationLink());
-        String body = templateEngine.process("confirmation-template", context);
+        context.setVariable("confirmLink", event.getConfirmationLink());
+        String body = templateEngine.process("confirmation-registration-template", context);
 
         return new Mail(event.getEmail(), "Подтвердите почту", body);
     }
@@ -36,5 +37,13 @@ public class MailBodyService {
         String body = templateEngine.process("authentication-template", context);
 
         return new Mail(event.getEmail(), "Уведомление о входе", body);
+    }
+
+    public Mail buildMailConfirmationWithCode(EmailUpdateAttemptEvent event) {
+        Context context = new Context();
+        context.setVariable("code", event.getConfirmationCode());
+        String body = templateEngine.process("confirmation-email-change-template", context);
+
+        return new Mail(event.getNewEmail(), "Подтвердите новую почту", body);
     }
 }

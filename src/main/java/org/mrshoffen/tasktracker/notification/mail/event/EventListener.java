@@ -4,6 +4,7 @@ package org.mrshoffen.tasktracker.notification.mail.event;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mrshoffen.tasktracker.commons.kafka.event.authentication.AuthenticationSuccessfulEvent;
+import org.mrshoffen.tasktracker.commons.kafka.event.creds.EmailUpdateAttemptEvent;
 import org.mrshoffen.tasktracker.commons.kafka.event.registration.RegistrationAttemptEvent;
 import org.mrshoffen.tasktracker.commons.kafka.event.registration.RegistrationSuccessfulEvent;
 import org.mrshoffen.tasktracker.notification.mail.model.Mail;
@@ -43,6 +44,14 @@ public class EventListener {
 
         Mail auth = mailBodyService.buildAuthenticationMessage(event);
         mailNotificatorService.send(auth);
+    }
+
+    @KafkaListener(topics = EmailUpdateAttemptEvent.TOPIC)
+    public void handleUnconfirmedMailChangeAttempt(EmailUpdateAttemptEvent event) {
+        log.info("Received event in topic {} - {}", EmailUpdateAttemptEvent.TOPIC, event);
+
+        Mail emailUpdate = mailBodyService.buildMailConfirmationWithCode(event);
+        mailNotificatorService.send(emailUpdate);
     }
 
 }
