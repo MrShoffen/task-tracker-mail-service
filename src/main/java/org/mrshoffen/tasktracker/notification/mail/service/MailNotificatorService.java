@@ -27,8 +27,7 @@ public class MailNotificatorService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         helper.setFrom(fromUser, "TaskZone");
-//        helper.setTo(mail.to());
-        helper.setTo("mrshoffen@gmail.com");
+        helper.setTo(mail.to());
         helper.setSubject(mail.subject());
         helper.setText(mail.body(), true);
 
